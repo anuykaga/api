@@ -1,0 +1,31 @@
+{
+  "name": "memek",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "balxzzy",
+  "license": "MIT",
+  "description": "p",
+  "dependencies": {
+    "axios-cookiejar-support": "*",
+    "body-parser": "*",
+    "cheerio": "1.0.0-rc.10",
+    "express": "*",
+    "express-rate-limit": "*",
+    "express-session": "*",
+    "file-type": "*",
+    "firebase-admin": "*",
+    "form-node-data": "*",
+    "moment-timezone": "*",    
+    "node-fetch": "2.7.0",
+    "qs": "*",
+    "ruhend-scraper": "*",
+    "syntax-error": "*",
+    "tough-cookie": "*",
+    "uuid": "*",
+    "yt-search": "*"
+  }
+}

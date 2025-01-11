@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Price Table</title>
+  <style>
+    html, body {
+      height: 100%; /* Mengatur tinggi body dan html */
+      margin: 0; /* Menghapus margin default */
+      overflow: auto; /* Mengizinkan scroll jika konten melebihi tinggi */
+    }
+
+    body {
+      font-family: "Arial", sans-serif;
+      background-color: #000; /* Set body background to black */
+      color: #fff; /* Change text color to white */
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; /* Mengatur agar konten mulai dari atas */
+      padding: 20px; /* Jarak antara tepi jendela dan konten */
+    }
+
+    #price-table-container {
+      background: #000; /* Set price table container background to black */
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1); /* Light shadow for contrast */
+      padding: 20px;
+      max-width: 1000px; /* Memperbesar lebar maksimum tabel */
+      width: 100%; /* Mengatur lebar menjadi 100% untuk memperlebar tabel */
+      box-sizing: border-box;
+    }
+
+    .header {
+      display: flex; /* Menggunakan flexbox untuk tata letak horizontal */
+      justify-content: space-between; /* Jarak antar elemen */
+      align-items: center; /* Memastikan elemen sejajar secara vertikal */
+      margin-bottom: 20px; /* Jarak antara header dan tabel */
+    }
+
+    .home-button {
+      display: inline-block; /* Memastikan tombol berbentuk kotak */
+      padding: 10px 15px; /* Padding dalam tombol */
+      background-color: #007bff; /* Warna latar belakang tombol */
+      color: white; /* Warna teks tombol */
+      text-decoration: none; /* Menghapus garis bawah */
+      border-radius: 5px; /* Membuat sudut tombol melengkung */
+    }
+
+    h2 {
+      text-align: center; /* Memusatkan teks */
+      font-size: 1.5em; /* Ukuran font judul */
+      flex-grow: 1; /* Memungkinkan judul mengambil ruang yang ada */
+    }
+
+    table {
+      width: 100%; /* Memastikan tabel menggunakan lebar penuh */
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 20px; /* Menambahkan padding pada sel */
+      text-align: center;
+      border: 1px solid #444; /* Darker border color */
+      font-size: 1em;
+    }
+
+    th {
+      background-color: #007bff; /* Blue background for table headers */
+      color: white; /* White text for headers */
+    }
+
+    td {
+      background-color: #222; /* Dark background for table cells */
+    }
+
+    .highlight {
+      background-color: #e8f0fe; /* Highlight color for specific rows */
+    }
+
+    #description {
+      margin-top: 20px; /* Jarak antara tabel dan deskripsi */
+      font-size: 0.9em;
+      color: #bbb; /* Lighter color for description text */
+    }
+
+    #payment-methods {
+      margin-top: 20px; /* Jarak antara deskripsi dan metode pembayaran */
+      text-align: center; /* Memusatkan teks */
+      display: flex; /* Menggunakan flexbox untuk sejajar */
+      justify-content: center; /* Memusatkan item secara horizontal */
+      flex-wrap: wrap; /* Membungkus item jika perlu */
+    }
+
+    .payment-item {
+      display: flex; /* Menggunakan flexbox untuk menjaga keselarasan */
+      flex-direction: column; /* Mengatur item secara vertikal */
+      align-items: center; /* Memastikan item sejajar di tengah */
+      margin: 0 20px; /* Jarak antara item */
+      text-align: center; /* Memusatkan teks di bawah logo */
+    }
+
+    .payment-logo {
+      width: 50px; /* Ukuran logo */
+      height: 50px; /* Tinggi logo */
+      border-radius: 50%; /* Membuat logo bulat */
+      object-fit: cover; /* Memastikan gambar tidak terdistorsi */
+    }
+
+    .payment-label {
+      margin-top: 5px; /* Jarak antara logo dan label */
+      font-size: 0.8em; /* Ukuran font untuk label */
+      color: #fff; /* Warna teks label */
+    }
+
+    #contact {
+      margin-top: 20px; /* Jarak antara logo dan kontak */
+      text-align: center; /* Memusatkan teks */
+    }
+
+    #contact a {
+      color: #007bff; /* Warna link */
+      text-decoration: none; /* Menghapus garis bawah */
+    }
+
+    #contact a:hover {
+      text-decoration: underline; /* Garis bawah saat hover */
+    }
+  </style>
+</head>
+<body>
+  <div id="price-table-container">
+    <div class="header">
+      <a href="/" class="home-button">◀ Back</a> <!-- Tombol Home -->
+      <h2>PRICE LIST</h2>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Price</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Rp 0</td>
+          <td> 🎟 50 Limit Request Free / Day</td>
+        </tr>
+        <tr>
+          <td>Rp 3.000</td>
+          <td> 🎟 5.000 Limit Request <br> + <br> 🔐 Premium <br> Custom Apikey </td>
+        </tr>
+        <tr class="highlight">
+          <td>Rp 5.000</td>
+          <td> 🎟 7.000 Limit Request <br> + <br> 🔐 Premium <br> Custom Apikey</td>
+        </tr>
+        <tr class="highlight">
+          <td>Rp 10.000</td>
+          <td> 🎟 15.000 Limit Request <br> + <br> 🔐 Premium <br> Custom Apikey</td>
+        </tr>
+        <tr class="highlight">
+          <td>Rp 13.000</td>
+          <td> 🎟 17.000 Limit Request <br> + <br> 🔐 Premium <br> Custom Apikey</td>
+        </tr>
+        <tr class="highlight">
+          <td>Rp 15.000</td>
+          <td> 🎟 20.000 Limit Request <br> + <br> 🔐 Premium <br> Custom Apikey</td>
+        </tr>
+       <tr class="highlight">
+          <td>Rp 20.000</td>
+          <td> 🎟 25.000 Limit Request <br> + <br> 🔐 Premium <br> Custom Apikey</td>
+        </tr>
+      </tbody>
+    </table>
+    <div id="description">
+      <h2>
+        🎟 Sistem Limit Request Tergantung Pilihan Semakin Besar Semakin Banyak Limitnya Dan Tidak Ada Batasan Waktu Sehingga Gak Perlu Was Was Dan Khawatir Kalo Limit Masih Banyak Tapi Masa Aktif Habis.
+        <br><br>
+        📌 Dilarang Flooding Request Akan Di Banned Dan Status Premium dan Limit Akan Hangus
+      </h2>
+      <p></p>
+    </div>
+    <h2>Payment</h2>
+    <div id="payment-methods">
+      <div class="payment-item">
+        <img src="https://play-lh.googleusercontent.com/-kwEfsDenlwTCoWTe2BCAOv9YFPE4m5EReErdU_BsYYcISAtQ16JflXuwU8Okuw3Y6E=w240-h480-rw" alt="OVO" class="payment-logo">
+        <div class="payment-label">OVO</div>
+      </div>
+      <div class="payment-item">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGglzp3pi04sdTe7teWwIj3abbA0HHqwYcxwzXVWi5ueYhk_MwQge3tE8&s=10" alt="DANA" class="payment-logo">
+        <div class="payment-label">DANA</div>
+      </div>
+      <div class="payment-item">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT82HKSAF8ekgUyp-WZxc4pGm5SBT2IiKRR7hBnrhX5biUOh_VcNY4gP7I&s=10" alt="PULSA" class="payment-logo">
+        <div class="payment-label">PULSA</div>
+      </div>
+    </div>
+    <div id="contact">
+      <p>Hubungi <a href="https://wa.me/6285161326436?text=Permisi ka aku mau beli limit atau premium di ruhend rest api">click here</a></p>
+    </div>
+  </div>
+</body>
+</html>

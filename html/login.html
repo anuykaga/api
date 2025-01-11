@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register & Login</title>
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background-color: rgba(30, 144, 255, 0.8); /* Sama dengan warna sidebar */
+      color: #fff;
+      overflow: hidden;
+    }
+    .container {
+      width: 320px;
+      padding: 20px;
+      background-color: rgba(0, 70, 140, 0.9); /* Warna biru tua */
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+    input[type="text"], input[type="email"], input[type="password"], input[type="phone"] {
+      width: calc(100% - 15px);
+      padding: 12px;
+      margin: 12px 0;
+      background: #000; /* Mengubah latar belakang semua kolom menjadi hitam */
+      border: none;
+      color: #ffffff;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    input[type="submit"] {
+      width: calc(100% - 15px);
+      padding: 12px;
+      background-color: #1E90FF; /* Warna biru untuk tombol */
+      border: none;
+      color: #ffffff;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s, transform 0.2s; /* Animasi transisi */
+    }
+    input[type="submit"]:hover {
+      background-color: #1C86EE; /* Biru lebih gelap saat hover */
+    }
+    input[type="submit"]:active {
+      transform: scale(0.95); /* Efek memperkecil saat diklik */
+    }
+    .notification {
+      display: none;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      position: relative;
+      text-align: center;
+    }
+    .success {
+      background-color: #4caf50;
+      color: white;
+    }
+    .error {
+      background-color: #f44336;
+      color: white;
+    }
+    .clickable {
+      margin-top: 15px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .link-text {
+      color: #ffffff; /* Warna putih untuk tautan */
+      text-decoration: underline;
+      font-weight: bold; /* Menebalkan teks */
+    }
+    .link-text:hover {
+      color: #ccc; /* Warna lebih terang saat hover */
+    }
+    .bold {
+      font-weight: bold;
+    }
+    .bold-emphasized {
+      font-weight: bolder;
+    }
+    .info-text {
+      font-size: 11px; /* Ukuran font untuk keterangan */
+      color: #fff; /* Warna putih untuk keterangan */
+      margin: 0;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Form Login -->
+  <div class="container" id="loginForm" style="display: block;">
+    <h2>Login</h2>
+    <div id="loginNotification" class="notification"></div>
+    <input type="email" id="loginEmail" placeholder="Email" required autocomplete="email">
+    
+    <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password">
+    <input class="anu" type="submit" value="Login" onclick="login()">
+    <p id="loginMessage"></p>
+    <p class="clickable" onclick="toggleForms()">
+      <span class="bold-emphasized">Belum punya akun?</span> <span class="link-text">Daftar di sini</span>
+    </p>
+    <a href="https://wa.me/6285161326436?text=Permisi ka saya mau mereset password di Ruhend API" class="link-text">Lupa Password</a><span>&nbsp;&nbsp;&nbsp;</span>
+    <a href="/docs" class="link-text">Dashboard</a>
+  </div>
+
+  <!-- Form Register -->
+  <div class="container" id="registerForm" style="display: none;">
+    <h2>Register</h2>
+    <div id="registerNotification" class="notification"></div>
+    
+    <p class="info-text">Buat username minimal 5 huruf kecil</p>
+    <input type="text" id="registerUsername" placeholder="Username" required>
+    
+    <p class="info-text">Masukan email </p>
+    <input type="email" id="registerEmail" placeholder="Email" required autocomplete="email">
+    
+    <p class="info-text">Gunakan format kode negara, contoh: 62838178377</p>
+    <input type="phone" id="registerPhone" placeholder="Phone" required autocomplete="phone">
+    
+    <p class="info-text">Buat password minimal 6 karakter.</p>
+    <input type="password" id="registerPassword" placeholder="Password" required autocomplete="new-password">
+    
+    <input type="submit" value="Register" onclick="register()">
+    <p id="registerMessage"></p>
+    <p class="clickable" onclick="toggleForms()">
+      <span class="bold-emphasized">Sudah punya akun?</span> <span class="link-text">Login di sini</span>
+    </p>
+    <a href="/profile" class="link-text">Profile</a><span>&nbsp;&nbsp;&nbsp;</span>
+    <a href="/" class="link-text">Dashboard</a>
+  </div>
+
+  <script>
+    function toggleForms() {
+      const registerForm = document.getElementById('registerForm');
+      const loginForm = document.getElementById('loginForm');
+      if (registerForm.style.display === "none") {
+        registerForm.style.display = "block";
+        loginForm.style.display = "none";
+      } else {
+        registerForm.style.display = "none";
+        loginForm.style.display = "block";
+      }
+    }
+
+    function showNotification(message, type, form) {
+      const notification = document.getElementById(form === 'register' ? 'registerNotification' : 'loginNotification');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      notification.style.display = 'block';
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 10000);
+    }
+
+    function register() {
+      const username = document.getElementById('registerUsername').value;
+      const email = document.getElementById('registerEmail').value;
+      const phone = document.getElementById('registerPhone').value;
+      const password = document.getElementById('registerPassword').value;
+
+      if (username.length < 5 || !/^[a-z]+$/.test(username)) {
+        showNotification("Username harus minimal 5 huruf kecil.", "error", 'register');
+        return;
+      }
+
+      if (password.length < 6) {
+        showNotification("Password harus minimal 6 karakter.", "error", 'register');
+        return;
+      }
+
+      fetch('/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, email, password, phone })
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('registerMessage').textContent = data.message;
+        showNotification(data.message, data.success ? "success" : "error", 'register');
+        if (data.success) {
+          setTimeout(() => {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            window.location.href = '/profile'; 
+          }, 3000);
+        }
+      });
+    }
+
+    function login() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password }) // Hanya mengirim email dan password
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('loginMessage').textContent = data.message;
+        showNotification(data.message, data.success ? "success" : "error", 'login');
+        if (data.success) {
+          setTimeout(() => {
+            window.location.href = '/profile'; // Ubah ke URL dashboard yang sesuai
+          }, 3000);
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
