@@ -260,7 +260,8 @@
         <div id="maker" class="collapse-content">
             <a href="/api/maker/brat?q=menu&key=">Brat</a>
             <a href="/api/maker/qc?thumb=https://files.catbox.moe/vrql97.jpg&name=Ruhend&q=menu&key=">QC (Quote Chat)</a>
-
+            <a href="/api/maker/hd?thumb=https://files.catbox.moe/vrql97.jpg&key=">HD</a>
+            
             <br>
             <br>
             <br>

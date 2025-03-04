@@ -10,7 +10,6 @@
   "license": "MIT",
   "description": "p",
   "dependencies": {
-    "axios-cookiejar-support": "*",
     "body-parser": "*",
     "cheerio": "1.0.0-rc.10",
     "express": "*",
@@ -24,7 +23,6 @@
     "qs": "*",
     "ruhend-scraper": "*",
     "syntax-error": "*",
-    "tough-cookie": "*",
     "uuid": "*",
     "yt-search": "*"
   }

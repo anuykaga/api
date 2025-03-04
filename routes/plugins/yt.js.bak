@@ -179,7 +179,7 @@ export async function ytmp3_link(link) {
 };
 export async function ytmp4_link(link) {
 	try {
-		const data = await ytdown.download(link, '480')
+		const data = await ytdown.download(link, '720')
 		return data.download
 	} catch (error) {
 		console.error('Terjadi kesalahan:', error.message);

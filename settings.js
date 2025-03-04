@@ -13,7 +13,7 @@ const checkTimeAndRun = async () => {
     if (hours === h && minutes === m && !hasRun) {
         hasRun = true; // Set flag agar tidak menjalankan lagi
         try {
-            const limit = 50
+            const limit = 100
             const db = await readData();
             db.users.forEach(user => {
                 if (!user.premium) {
