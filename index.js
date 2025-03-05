@@ -33,14 +33,9 @@ async function ipAddress() {
 
 setInterval(() => {
     exec('printf "\x1bc"', (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error clearing console: ${error.message}`);
-        }
-        if (stderr) {
-            console.error(`stderr: ${stderr}`);
-        }
+        console.log(stdout)
     });
-}, 120_000);
+}, 60_000);
 const DEFAULT_PORT = 8080
 const findAvailablePort = (port) => {
     return new Promise((resolve, reject) => {
