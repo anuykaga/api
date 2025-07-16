@@ -1,8 +1,5 @@
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
-process.on('uncaughtException', (e) => {
-  // if (String(e).match('ValidationError')) return console.log('Biasa Error Trust Proxy');
-   console.log('Error:\n', e)
-});
+process.on('uncaughtException', console.error)
 import './settings.js'
 import https from 'https';
 import { exec } from 'child_process';

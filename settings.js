@@ -19,7 +19,7 @@ setInterval(async () => {
        console.log(caption);
        return await writeData(db);
     }
-}, 5000);
+}, 10000);
 global.KEY = {
    key: {
       message: "Masukan Apikey Nya",
