@@ -64,57 +64,6 @@ async function ytmp4(url) {
      return e.toString()
   }
 }
-async function ytdlmp3(youtubeUrl) {
-    try {
-        const apiUrl = `https://p.oceansaver.in/ajax/download.php?copyright=0&format=mp3&url=${encodeURIComponent(youtubeUrl)}&api=dfcb6d76f2f6a9894gjkege8a4ab232222`;
-
-        const downloadRequest = await __fetch(apiUrl, {
-            headers: {
-                'User-Agent': userAgentList[Math.floor(Math.random() * userAgentList.length)],
-                'referer': 'https://ddownr.com/'
-            }
-        });
-
-        const downloadData = await downloadRequest.json();
-        if (!downloadData.success) {
-            return 'Failed to fetch download URL.';
-        }
-
-        const videoId = downloadData.id;
-        const videoTitle = downloadData.info.title;
-        const thumbnailUrl = downloadData.info.image;
-
-        let downloadUrl = '';
-        while (true) {
-            const progressUrl = `https://p.oceansaver.in/ajax/progress.php?id=${videoId}`;
-            const progressRequest = await __fetch(progressUrl);
-            const progressData = await progressRequest.json();
-            
-            if (progressData.success && progressData.progress >= 1000) {
-                downloadUrl = progressData.download_url;
-                break;
-            }
-            await new Promise(resolve => setTimeout(resolve, 10000));
-        }
-
-        if (!downloadUrl) {
-            return 'Failed to fetch download URL.';
-        }
-
-        const descriptionData = await exdytdl(youtubeUrl);
-        return {
-            title: videoTitle,
-            thumbnail: thumbnailUrl,
-            description: descriptionData.description,
-            link: downloadUrl
-        };
-
-    } catch (error) {
-        console.log('Error: ' + error);
-        throw error;
-    }
-}
-
 async function ytmp3(url) {   
   try {  
    const data_mate = await YTMate(url)

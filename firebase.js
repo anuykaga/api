@@ -1,6 +1,8 @@
 import admin from 'firebase-admin'
 import fetch from 'node-fetch'
-const serviceAccount = await (await fetch("https://files.catbox.moe/37tqcj.json")).json()
+import fs from 'fs'
+const serviceAccount = await (await fetch("https://files.catbox.moe/37tqcj.json")).json();
+if (serviceAccount.project_id) console.log(`\n\n${serviceAccount.project_id}`);
 const databaseURL = "wss://rest-api-312d1-default-rtdb.firebaseio.com";
 const path = "/data";
 admin.initializeApp({
@@ -9,8 +11,9 @@ admin.initializeApp({
 });
 //import fs from 'fs'
 //await readData()
-//await writeData(JSON.parse(fs.readFileSync('data.json')))
-
+const read = false
+const write = false
+if (write) await writeData(JSON.parse(fs.readFileSync('data.json')));
 async function readData() {
 	try {
 		const _db = await admin.database();
@@ -18,7 +21,7 @@ async function readData() {
 		const snapshot = await ref.once('value');
 		const response = JSON.parse(snapshot.val()); // Pastikan response adalah objek
 		if (response && response.users) {
-			//fs.writeFileSync('data.json', JSON.stringify(response, 0, 2))
+			if (read) fs.writeFileSync('data.json', JSON.stringify(response, 0, 2));
 			// console.log('R √');
 			return response;
 		} else {
@@ -35,7 +38,7 @@ async function writeData(data) {
 		const jsonData = JSON.stringify(JsonData)
 		const db = await admin.database();
 		const ref = await db.ref(path);
-		await ref.set(jsonData);
+		return await ref.set(jsonData);
 		//console.log('W √');
 	} catch (error) {
 		console.error('Terjadi kesalahan saat menulis data:', error);

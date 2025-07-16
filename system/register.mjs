@@ -11,13 +11,13 @@ export default async function (req, res) {
     if (result.success) {
         req.session.email = email
         req.session.phone = phone
-        res.json({
+        return await res.json({
             success: true,
             message: "Register sukses!"
         })
         //res.send( "Register Sukses!")
         //res.redirect("/profile")   
     } else {
-        res.json(result)
+        return await res.json(result)
     }
 }

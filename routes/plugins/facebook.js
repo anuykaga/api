@@ -2,59 +2,47 @@ import { readData, writeData } from '../../firebase.js'
 export default async function (req, res) {    
     const key = req.query.key;
     const url = req.query.url;
-    if (!url) {
-        return res.status(403).json({
-            status: 403,
-            message: "Url Facebook Nya Mana?",
-            error: "Please input url facebook"
-        });
-    }
-    if (!key) {
-        return res.status(403).json(KEY.key);
-    }
+    if (!url) return await res.status(403).json({
+       status: 403,
+       message: "Url Facebook Nya Mana?",
+       error: "Please input url facebook"
+    });
+    if (!key) return await res.status(403).json(KEY.key);
     const db = await readData();
-    if (!db.keys.includes(key)) {
-        return res.status(403).json(KEY.wrong_key);
-    }
+    if (!db.keys.includes(key)) return await res.status(403).json(KEY.wrong_key);
     const user = db.users.find(user => user.authKey === key);
-    if (user.limit <= 0) {
-        return res.status(403).json(KEY.reached);
-    }
-    const data = await fbdl(url)
-    if (data.status == true) {
-        res.status(200).json({
-            status: 200,
-            request_name: user.username,
-            message: 'sukses',
-            data: data.data
-        })
+    if (user.limit <= 0) return await res.status(403).json(KEY.reached);
+    const data = await fbdl(url);
+    if (data.status == true) {        
         let log = '\nNama: Facebook\n'
         log += 'url: ' + url + '\n'
         log += 'status: Sukses\n'
-        log += 'User: ' + user.username + '\n';
-        
+        log += 'User: ' + user.username + '\n';        
         user.limit -= 1;
         db.total_request += 1;
         await writeData(db);
         console.log(log)
-    } else if (data.status == false) {
-        res.status(500).json({
-            status: 500,
-            message: "Ada masalah, coba lagi nanti",
-            error: data.msg
-        });
+        return await res.status(200).json({
+           status: 200,
+           request_name: user.username,
+           message: 'sukses',
+           data: data.data
+        })
+    } else if (data.status == false) {        
         let log = '\nNama: Facebook\n'
         log += 'URL: ' + url + '\n'
         log += 'Satus: Gagal\n'
-        log += 'User: ' + user.username + '\n';
-        
+        log += 'User: ' + user.username + '\n';       
         db.total_request += 1;
         await writeData(db);
         console.log(log)
+        return await res.status(500).json({
+            status: 500,
+            message: "Ada masalah, coba lagi nanti",
+            error: data.msg
+        })
     }
 };
-
-
 import cheerio from 'cheerio'
 async function fbdl(url) {
     return new Promise(async (resolve) => {

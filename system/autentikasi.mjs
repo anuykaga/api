@@ -1,8 +1,7 @@
-export default function isAuthenticated(req, res, next) {
+export default async function isAuthenticated(req, res, next) {
     if (req.session && req.session.email) {
-        next()
+        return await next()
     } else {
-        res.redirect("/login")
+        return await res.redirect("/login")
     }
 }
-

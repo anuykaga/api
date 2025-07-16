@@ -9,11 +9,11 @@ export default async function (req, res) {
     if (result.success) {
         req.session.email = email
         req.session.password = password
-        res.json({
+        return await res.json({
             success: true,
             message: "Login sukses!"
         })
     } else {
-        res.json(result)
+        return await res.json(result)
     }
 }

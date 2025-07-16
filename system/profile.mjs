@@ -4,12 +4,12 @@ export default async function (req, res) {
     const db = await readData()
     const userProfile = await getUserProfile(req.session.email)
     if (userProfile) {        
-        res.json({
+        return await res.json({
             userProfile,
             totalUsers: Object.keys(db.users).length                      
         })
     } else {
-        res.status(403).json({
+        return await res.status(403).json({
             error: "Lu Aja Belum Login Jir"
         })
     }

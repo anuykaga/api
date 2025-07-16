@@ -4,37 +4,29 @@ import { ytmp4_link } from './yt.js'
 export default async function (req, res) {  
     const key = req.query.key;
     const url = req.query.url;
-    if (!url) {
-        return res.status(400).json({
+    const quality = req.query.quality;
+    if (!quality) return await res.status(400).json({
+            status: 400,
+            message: "Masukan quality nya hanya ada 144, 240, 360, 480, 720, 1080",
+            error: "Please input quality there's 144, 240, 360, 480, 720, 1080"
+        });
+    if (!url) return await res.status(400).json({
             status: 400,
             message: "Url Youtube Nya Mana?",
             error: "Please input url tiktok"
         });
-    }
-    if (!key) {
-        return res.status(403).json(KEY.key);
-    }
+    if (!key) return await res.status(403).json(KEY.key);
     const db = await readData();
-    if (!db.keys.includes(key)) {
-        return res.status(403).json(KEY.wrong_key);
-    }
+    if (!db.keys.includes(key)) return await res.status(403).json(KEY.wrong_key);
     const user = db.users.find(user => user.authKey === key);
-    if (user.limit <= 0) {
-        return res.status(403).json(KEY.reached);
-    }  
-    var data = await ytmp4(url)           
-    var link = await ytmp4_link(url)
-    if (!(link === "Error")) {
+    if (user.limit <= 0) return await res.status(403).json(KEY.reached);    
+    try {
+       var data = await ytmp4(url)           
+       var link = await ytmp4_link(url, quality)    
        const result = {
-          video: link,
-          ...data,       
-       }
-        res.status(200).json({
-            status: 200,
-            request_name: user.username,
-            message: 'sukses',
-            data: result
-        })
+          ...data, 
+          video: link                
+       };        
         let log = '\nNama: ytmp4 \n'
         log += 'url: ' + url + '\n'
         log += 'status: Sukses\n'
@@ -42,21 +34,25 @@ export default async function (req, res) {
         console.log(log)
         user.limit -= 1;
         db.total_request += 1;
-        //await writeData(db);
         await writeData(db);
-    } else if (link === "Error") {
-        res.status(500).json({
-            status: 500,
-            message: "Ada masalah, coba lagi nanti",
-            error: link
-        });
+        return await res.status(200).json({
+            status: 200,
+            request_name: user.username,
+            message: 'sukses',
+            data: result
+        })
+    } catch (e) {        
         let log = '\nNama: ytmp4\n'
         log += 'URL: ' + url + '\n'
         log += 'Satus: Gagal\n'
-        log += 'User: ' + user.username + '\n';
-        
+        log += 'User: ' + user.username + '\n';        
         console.log(log)
         db.total_request += 1;
         await writeData(db);
+        return await res.status(500).json({
+            status: 500,
+            message: "Ada masalah, coba lagi nanti",
+            error: format(e)
+        })
     }
 };

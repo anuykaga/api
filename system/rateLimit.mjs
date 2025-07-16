@@ -28,14 +28,14 @@ export const limit = rateLimit({
   }
 });
 
-export const checkBanned = (req, res, next) => {
+export const checkBanned = async (req, res, next) => {
   const ip = req.ip;
 
   // Cek apakah IP adalah lokal
   if (bannedIPs.includes(ip) && !isLocalIP(ip)) {
-    return res.status(403).send("To Many Request Sensei, Try Again Next Time!");
+    return await res.status(403).send("To Many Request Sensei, Try Again Next Time!");
   }
-  next();
+  await next();
 };
 
 // Fungsi untuk mengecek apakah IP adalah lokal

@@ -2,63 +2,51 @@ import { readData, writeData } from '../../firebase.js'
 export default async function (req, res) {    
     const key = req.query.key;
     const url = req.query.url;    
-    if (!url) {
-        return res.status(403).json({
+    if (!url) return await res.status(403).json({
             status: 403,
             message: "Url Twiter Nya Mana?",
             error: "Please input url twiter"
         })
-    }
-    if (!key) {
-        return res.status(403).json(KEY.key);
-    }
+    if (!key) return await res.status(403).json(KEY.key);
     const db = await readData();
-    if (!db.keys.includes(key)) {
-        return res.status(403).json(KEY.wrong_key);;
-    }
+    if (!db.keys.includes(key)) return await res.status(403).json(KEY.wrong_key);
     const user = db.users.find(user => user.authKey === key);
-    if (user.limit <= 0) {
-        return res.status(403).json(KEY.reached);
-    }
+    if (user.limit <= 0) return await res.status(403).json(KEY.reached);
     const data = await downloadTwitter(url)
     console.log(Object.keys(data).length)
-    if (Object.keys(data.title).length > 1) {
-        res.status(200).json({
+    if (Object.keys(data.title).length > 1) {       
+        let log = '\nNama:twitter \n'
+        log += 'url: ' + url + '\n'
+        log += 'status: Sukses\n'
+        log += 'User: ' + user.username + '\n';        
+        console.log(log)
+        user.limit -= 1;
+        db.total_request += 1;
+        await writeData(db);
+        return await res.status(200).json({
             status: 200,
             request_name: user.username,
             message: 'sukses',
             data: data
         })
-        let log = '\nNama:twitter \n'
-        log += 'url: ' + url + '\n'
-        log += 'status: Sukses\n'
-        log += 'User: ' + user.username + '\n';
-        
-        console.log(log)
-        user.limit -= 1;
-        db.total_request += 1;
-      //  await writeData(db);
-        await writeData(db);
-    } else if (Object.keys(data.title).length == 0) {
-        res.status(500).json({
-            status: 500,
-            message: "Ada masalah, coba lagi nanti",
-            error: data
-        });
+    } else if (Object.keys(data.title).length == 0) {        
         let log = '\nNama: twitter\n'
         log += 'URL: ' + url + '\n'
         log += 'Satus: Gagal\n'     
-        log += 'User: ' + user.username + '\n';
-        
+        log += 'User: ' + user.username + '\n';        
         console.log(log)
         db.total_request += 1;
         await writeData(db);
+        return await res.status(500).json({
+            status: 500,
+            message: "Ada masalah, coba lagi nanti",
+            error: data
+        })
     }
 };
 
 import qs from 'qs';
 import cheerio from 'cheerio';
-
 async function downloadTwitter(link) {
     try {
         const requestBody = { URL: link };
@@ -75,7 +63,7 @@ async function downloadTwitter(link) {
         });
 
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw 'Network response was not ok'
         }
 
         const data = await response.text();
