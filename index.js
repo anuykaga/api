@@ -15,8 +15,8 @@ app.set('json spaces', 2);
 app.use(express.static('public'));
 app.use('/', main);
 app.use('/api', api);
-app.use(async (req, res, next) => await next(createError(404)));
-app.use(async (err, req, res, next) => await res.sendFile(path + '/html/404.html'));
+app.use(async (req, res, next) => next(createError(404)));
+app.use(async (err, req, res, next) => res.sendFile(path + '/html/404.html'));
 async function ipAddress() {
     try {
         const response = await fetch('https://api.ipify.org?format=json');
@@ -46,7 +46,7 @@ const findAvailablePort = (port) => {
         });
     });
 };
-await findAvailablePort(DEFAULT_PORT).then((PORT) => {
+findAvailablePort(DEFAULT_PORT).then((PORT) => {
    app.listen(PORT, () => {
       console.log(`\n\nServer listening on port ${PORT}\n\n`);
    });        
