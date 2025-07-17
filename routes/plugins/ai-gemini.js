@@ -53,7 +53,8 @@ export default async function (req, res) {
 
 async function gemini(text) {
 	try {
-	const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDxufK6S_YLLP8oAEVJ1bd-_Lduh8GJ5ho";
+	const keys = (await (await fetch('https://files.catbox.moe/aa22ob.json')).json())[0]
+	const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + keys
 	const data = {
 		contents: [{
 			parts: [{
