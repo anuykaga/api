@@ -5,24 +5,24 @@ export default async function (req, res) {
     const thumb = req.query.thumb;
     const name = req.query.name
     if (!key) {
-        return res.status(403).json(KEY.key);
+        return await res.status(403).json(KEY.key);
     }
     if (!q) {
-        return res.status(403).json({
+        return await res.status(403).json({
             status: 403,
             message: "Masuan text jya",
             error: "Input query !"
         })
     }
     if (!thumb) {
-        return res.status(403).json({
+        return await res.status(403).json({
             status: 403,
             message: "masukan url thumbnail atau foto nya untuk qc nya",
             error: "Input url thumbnail or photo for the qc !"
         })
     }
     if (!name) {
-        return res.status(403).json({
+        return await res.status(403).json({
             status: 403,
             message: "Masukan nama untuk qc nya",
             error: "Input query name for qc!"
@@ -31,20 +31,15 @@ export default async function (req, res) {
     
     const db = await readData();
     if (!db.keys.includes(key)) {
-        return res.status(403).json(KEY.wrong_key);
+        return await res.status(403).json(KEY.wrong_key);
     }
     const user = db.users.find(user => user.authKey === key);
     if (user.limit <= 0) {
-        return res.status(403).json(KEY.reached);
+        return await res.status(403).json(KEY.reached);
     }
     // if (Buffer.isBuffer(data)) 
     try {
-        const data = await qc(thumb, name, q)
-        res.status(200)
-        res.set({
-           'Content-Type': 'image/jpeg'
-        })
-        await res.send(data)
+        const data = await qc(thumb, name, q)        
         let log = '\nNama: QC \n'
         log += 'url: ' + q + '\n'
         log += 'status: Sukses\n'        
@@ -52,19 +47,22 @@ export default async function (req, res) {
         user.limit -= 1;
         db.total_request += 1;
         await writeData(db);
-   //   await writeData(db);       
-    } //else if (!Buffer.isBuffer(data))
-    catch {
-        res.json({
-            status: 500,
-            message: "Ada masalah, coba lagi nanti",
-        });
+        res.status(200)
+        res.set({
+           'Content-Type': 'image/jpeg'
+        })
+        return await res.send(data)
+    } catch {        
         let log = '\nNama: QC\n'
         log += 'URL: ' + q + '\n'
         log += 'Satus: Gagal\n'       
         console.log(log)
         db.total_request += 1;
         await writeData(db);
+        return await res.json({
+            status: 500,
+            message: "Ada masalah, coba lagi nanti",
+        });
     }
 };
 

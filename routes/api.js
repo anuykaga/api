@@ -31,7 +31,7 @@ router.get('/twitter', async (req, res) => await (await import($ + 'twitter.js')
 router.get('/ai/gemini', async (req, res) => await (await import($ + 'ai-gemini.js')).default(req, res))
 router.get('/ai/llama', async (req, res) => await (await import($ + 'ai-llama.js')).default(req, res))
 router.get('/ai/gpt3', async (req, res) => await (await import($ + 'ai-gpt3.js')).default(req, res))
-router.get('/ai/gpt3-5', async (req, res) => await (await import($ + 'ai-gpt3-5.js')).default(req, res))
+//router.get('/ai/gpt3-5', async (req, res) => await (await import($ + 'ai-gpt3-5.js')).default(req, res))
 
 // MAKER
 router.get('/maker/brat', async (req, res) => await (await import($ + 'brat.js')).default(req, res))

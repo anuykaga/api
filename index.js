@@ -15,8 +15,8 @@ app.set('json spaces', 2);
 app.use(express.static('public'));
 app.use('/', main);
 app.use('/api', api);
-app.use(async (req, res, next) => next(createError(404)));
-app.use(async (err, req, res, next) => res.sendFile(path + '/html/404.html'));
+app.use((req, res, next) => next(createError(404)));
+app.use((err, req, res, next) => res.sendFile(path + '/html/404.html'));
 async function ipAddress() {
     try {
         const response = await fetch('https://api.ipify.org?format=json');
@@ -30,7 +30,7 @@ setInterval(() => {
     exec('printf "\x1bc"', (error, stdout, stderr) => {
         console.log(stdout)
     });
-}, 120_000);
+}, 60_000);
 const DEFAULT_PORT = 8080
 const findAvailablePort = (port) => {
     return new Promise((resolve, reject) => {
